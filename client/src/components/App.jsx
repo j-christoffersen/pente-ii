@@ -1,7 +1,8 @@
 import React from 'react';
+import Board from '../containers/Board';
 
 const App = () => (
-  <div>whats gucci, world</div>
+  <Board />
 );
 
 export default App;

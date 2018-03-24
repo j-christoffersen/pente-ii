@@ -1,0 +1,13 @@
+.board {
+  display: grid;
+  width: 800px;
+  height: 800px;
+  grid-template-columns: repeat(17, 1fr);
+  grid-template-rows: repeat(17, 1fr);
+  grid-gap: 10px;
+}
+
+.piece {
+  background-color: white;
+  border: 2px solid black;
+} 

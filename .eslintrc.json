@@ -4,6 +4,7 @@
       "browser": true
     },
     "rules": {
-      "no-plusplus": 0
+      "no-plusplus": 0,
+      "react/no-array-index-key": 1
     }
 }
