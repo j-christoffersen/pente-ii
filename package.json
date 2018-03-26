@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/j-christoffersen/pente-ii#readme",
   "dependencies": {
+    "classnames": "^2.2.5",
     "koa": "^2.5.0",
     "koa-static": "^4.0.2",
     "prop-types": "^15.6.1",
