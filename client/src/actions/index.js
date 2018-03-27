@@ -7,3 +7,9 @@ export function move(row, col) {
     col,
   };
 }
+
+export function newGame() {
+  return {
+    type: 'NEW_GAME',
+  };
+}

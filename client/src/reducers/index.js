@@ -101,6 +101,10 @@ const reducers = (state = defaultState, action) => {
 
       return newState;
     }
+
+    case 'NEW_GAME': {
+      return defaultState;
+    }
     default: {
       return state;
     }
