@@ -13,3 +13,15 @@ export function newGame() {
     type: 'NEW_GAME',
   };
 }
+
+export function showOverlay() {
+  return {
+    type: 'SHOW_OVERLAY',
+  };
+}
+
+export function hideOverlay() {
+  return {
+    type: 'HIDE_OVERLAY',
+  };
+}

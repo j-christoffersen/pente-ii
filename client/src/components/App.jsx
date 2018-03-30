@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import Board from '../containers/Board';
 import Message from './Message';
 import Captures from './Captures';
+import Overlay from './Overlay';
 import { newGame } from '../actions';
 
 const App = props => (
   <div>
+    <Overlay />
     <Board />
     <Message />
     <Captures />
