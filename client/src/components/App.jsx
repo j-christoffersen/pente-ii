@@ -9,7 +9,7 @@ import { newGame } from '../actions';
 
 const App = props => (
   <div>
-    <Overlay />
+    {props.overlayIsVisible && <Overlay />}
     <Board />
     <Message />
     <Captures />
@@ -19,10 +19,15 @@ const App = props => (
 
 App.propTypes = {
   handleClick: PropTypes.func.isRequired,
+  overlayIsVisible: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = state => ({
+  overlayIsVisible: state.overlay.isVisible,
+});
 
 const mapDispatchToProps = dispatch => ({
   handleClick: () => { dispatch(newGame()); },
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

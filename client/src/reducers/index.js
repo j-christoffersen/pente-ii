@@ -10,6 +10,9 @@ const defaultState = {
     2: 0,
   },
   winner: null,
+  overlay: {
+    isVisible: true,
+  },
 };
 
 const checkForWinner = (newState, row, col) => {
@@ -83,9 +86,7 @@ const reducers = (state = defaultState, action) => {
             newState.board[row + (2 * dir.row)][col + (2 * dir.col)] === opponent &&
             newState.board[row + (3 * dir.row)][col + (3 * dir.col)] === newState.turn
           ) {
-            console.log(newState.captures, state.captures, newState.turn);
             newState.captures[newState.turn] += 1;
-            console.log(newState.captures, state.captures, newState.turn);
             newState.board[row + dir.row][col + dir.col] = 0;
             newState.board[row + (2 * dir.row)][col + (2 * dir.col)] = 0;
           }
@@ -105,6 +106,19 @@ const reducers = (state = defaultState, action) => {
     case 'NEW_GAME': {
       return defaultState;
     }
+
+    case 'HIDE_OVERLAY': {
+      const newState = JSON.parse(JSON.stringify(state));
+      newState.overlay.isVisible = false;
+      return newState;
+    }
+
+    case 'SHOW_OVERLAY': {
+      const newState = JSON.parse(JSON.stringify(state));
+      newState.overlay.isVisible = true;
+      return newState;
+    }
+
     default: {
       return state;
     }
