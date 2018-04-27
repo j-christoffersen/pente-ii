@@ -5,6 +5,7 @@ const board = generateBoard();
 const defaultState = {
   board,
   turn: 1,
+  playerMode: null,
   captures: {
     1: 0,
     2: 0,
@@ -109,9 +110,10 @@ const reducers = (state = defaultState, action) => {
       return defaultState;
     }
 
-    case 'HIDE_OVERLAY': {
+    case 'START_GAME': {
       const newState = JSON.parse(JSON.stringify(state));
       newState.overlay.isVisible = false;
+      newState.playerMode = action.playerMode;
       return newState;
     }
 

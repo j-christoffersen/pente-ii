@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { hideOverlay } from '../actions';
+import { startGame } from '../actions';
 
 class Overlay extends Component {
   constructor() {
@@ -35,7 +35,8 @@ class Overlay extends Component {
         <div>
           <p>The rules go here</p>
           <button onClick={this.hideRules}>Back</button>
-          <button onClick={this.props.play}>Play</button>
+          <button onClick={() => { this.props.play('ONE PLAYER'); }}>One Player</button>
+          <button onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>
         </div>
       );
     } else {
@@ -44,7 +45,8 @@ class Overlay extends Component {
           <h1>PENTE</h1>
           <p>Welcome to PENTE!</p>
           <button onClick={this.showRules}>Rules</button>
-          <button onClick={this.props.play}>Play</button>
+          <button onClick={() => { this.props.play('ONE PLAYER'); }}>One Player</button>
+          <button onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>
         </div>
       );
     }
@@ -62,7 +64,7 @@ Overlay.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  play: () => { dispatch(hideOverlay()); },
+  play: (playerMode) => { dispatch(startGame(playerMode)); },
 });
 
 export default connect(null, mapDispatchToProps)(Overlay);

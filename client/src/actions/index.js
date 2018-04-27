@@ -20,8 +20,9 @@ export function showOverlay() {
   };
 }
 
-export function hideOverlay() {
+export function startGame(playerMode) {
   return {
-    type: 'HIDE_OVERLAY',
+    type: 'START_GAME',
+    playerMode,
   };
 }
