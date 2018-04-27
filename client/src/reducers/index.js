@@ -57,6 +57,8 @@ const checkForWinner = (newState, row, col) => {
 const reducers = (state = defaultState, action) => {
   switch (action.type) {
     case 'MOVE': {
+      if (state.overlay.isVisible) return state;
+
       const newState = JSON.parse(JSON.stringify(state));
       const { row, col } = action;
 
