@@ -61,7 +61,7 @@ const reducers = (state = defaultState, action) => {
     case 'MOVE': {
       if (state.overlay.isVisible) return state;
       if (
-        state.playerMode === 'TWO PLAYER' &&
+        state.playerMode === 'ONE PLAYER' &&
         state.turn === 2 &&
         action.clicked === true
       ) {
@@ -113,7 +113,7 @@ const reducers = (state = defaultState, action) => {
 
       // creates side effects that cause a later action,
       // perhaps this structure is not ideal.
-      if (state.playerMode === 'TWO PLAYER' && newState.turn === 2) {
+      if (state.playerMode === 'ONE PLAYER' && newState.turn === 2) {
         setTimeout(computerMove, 2000);
       }
 
