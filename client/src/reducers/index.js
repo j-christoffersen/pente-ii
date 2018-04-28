@@ -1,4 +1,5 @@
 import generateBoard from '../helpers/generateBoard';
+import computerMove from '../helpers/AI';
 
 const board = generateBoard();
 
@@ -59,6 +60,13 @@ const reducers = (state = defaultState, action) => {
   switch (action.type) {
     case 'MOVE': {
       if (state.overlay.isVisible) return state;
+      if (
+        state.playerMode === 'TWO PLAYER' &&
+        state.turn === 2 &&
+        action.clicked === true
+      ) {
+        return state;
+      }
 
       const newState = JSON.parse(JSON.stringify(state));
       const { row, col } = action;
@@ -101,6 +109,12 @@ const reducers = (state = defaultState, action) => {
         }
 
         newState.turn = state.turn === 1 ? 2 : 1;
+      }
+
+      // creates side effects that cause a later action,
+      // perhaps this structure is not ideal.
+      if (state.playerMode === 'TWO PLAYER' && newState.turn === 2) {
+        setTimeout(computerMove, 2000);
       }
 
       return newState;

@@ -23,7 +23,7 @@ Space.defaultProps = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  handleClick: (row, col) => { dispatch(move(row, col)); },
+  handleClick: (row, col) => { dispatch(move(row, col, true)); },
 });
 
 export default connect(null, mapDispatchToProps)(Space);

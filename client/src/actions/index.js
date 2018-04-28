@@ -1,10 +1,11 @@
 /* eslint import/prefer-default-export: 0 */
 
-export function move(row, col) {
+export function move(row, col, fromClick) {
   return {
     type: 'MOVE',
     row,
     col,
+    fromClick,
   };
 }
 
