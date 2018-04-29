@@ -44,7 +44,11 @@ const checkForWinner = (newState, row, col) => {
 
     currentCoords.row = row - dir.row;
     currentCoords.col = col - dir.col;
-    while (newState.board[currentCoords.row][currentCoords.col] === newState.turn) {
+
+    while (
+      newState.board[currentCoords.row] &&
+      newState.board[currentCoords.row][currentCoords.col] === newState.turn
+    ) {
       piecesInARow++;
       currentCoords.row -= dir.row;
       currentCoords.col -= dir.col;
@@ -93,6 +97,7 @@ const reducers = (state = defaultState, action) => {
           const dir = dirs[i];
 
           if (
+            newState.board[row + (3 * dir.row)] &&
             newState.board[row + dir.row][col + dir.col] === opponent &&
             newState.board[row + (2 * dir.row)][col + (2 * dir.col)] === opponent &&
             newState.board[row + (3 * dir.row)][col + (3 * dir.col)] === newState.turn
