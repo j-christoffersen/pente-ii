@@ -11,8 +11,8 @@ Message.propTypes = {
 };
 
 const getMessage = (state) => {
-  if (state.winner) {
-    return `Player ${state.winner} wins!`;
+  if (state.gameState.winner) {
+    return `Player ${state.gameState.winner} wins!`;
   }
 
   return '';

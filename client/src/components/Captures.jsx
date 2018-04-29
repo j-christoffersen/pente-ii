@@ -18,7 +18,7 @@ Captures.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  captures: state.captures,
+  captures: state.gameState.captures,
 });
 
 export default connect(mapStateToProps)(Captures);
