@@ -1,6 +1,8 @@
 import generateBoard from '../helpers/generateBoard';
 import computerMove from '../helpers/AI';
 
+const COMPUTER_WAIT_TIME = 1000;
+
 const board = generateBoard();
 
 const defaultState = {
@@ -119,7 +121,7 @@ const reducers = (state = defaultState, action) => {
       // creates side effects that cause a later action,
       // perhaps this structure is not ideal.
       if (state.playerMode === 'ONE PLAYER' && newState.turn === 2) {
-        setTimeout(computerMove, 2000);
+        setTimeout(computerMove, COMPUTER_WAIT_TIME);
       }
 
       return newState;

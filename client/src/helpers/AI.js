@@ -6,17 +6,30 @@ import { move } from '../actions';
 const patterns = {
   '210': 5 ** 0,
   '012': 5 ** 0,
-  '010': 5 ** 2,
-  '2110': -(5 ** 6),
-  '0112': -(5 ** 6),
-  '0110': 5 ** 4,
-  '21110': 5 ** 4,
-  '01112': 5 ** 4,
-  '01110': 5 ** 8,
-  '211110': 5 ** 10,
-  '011112': 5 ** 10,
-  '011110': 5 ** 12,
-  '11111': 5 ** 14,
+  '120': -(5 ** 0),
+  '021': -(5 ** 0),
+  '010': 5 ** 1,
+  '020': 5 ** 1,
+  '2110': -(5 ** 3),
+  '1220': 5 ** 3,
+  '0112': -(5 ** 3),
+  '0221': -(5 ** 3),
+  '0110': 5 ** 2,
+  '0220': -(5 ** 2),
+  '21110': 5 ** 2,
+  '01112': 5 ** 2,
+  '12220': -(5 ** 2),
+  '02221': -(5 ** 2),
+  '01110': 5 ** 4,
+  '02220': -(5 ** 5),
+  '211110': 5 ** 6,
+  '011112': 5 ** 6,
+  '122220': -(5 ** 7),
+  '022221': -(5 ** 7),
+  '011110': 5 ** 8,
+  '022220': -(5 ** 9),
+  '11111': 5 ** 10,
+  '22222': -(5 ** 10),
 };
 
 class Board {
@@ -51,18 +64,15 @@ class Board {
 
             pattern.push(this.board[row][col]);
 
-            const patternString = pattern.join('');
-            const numMap = {
+            const reversePlayers = {
               0: 0,
               1: 2,
               2: 1,
             };
-            const reversePatternString = pattern.map(num => numMap[num]).join('');
 
-            if (patterns[reversePatternString]) {
-              this.value -= patterns[reversePatternString] * 5;
-              break;
-            } else if (patterns[patternString]) {
+            const patternString = pattern.map(num => reversePlayers[num]).join('');
+
+            if (patterns[patternString]) {
               this.value += patterns[patternString];
               break;
             }
