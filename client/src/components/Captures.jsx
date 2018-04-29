@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 const Captures = props => (
   <div className="message">
+    <div>Captures:</div>
     <div>Yellow: {props.captures[1]}</div>
     <div>Green: {props.captures[2]}</div>
   </div>
