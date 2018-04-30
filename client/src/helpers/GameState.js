@@ -47,6 +47,9 @@ const patterns = {
   '22222': -(5 ** 11),
 };
 
+const CAPTURE_VALUE = 5 ** 5;
+const GAME_OVER_VALUE = 5 ** 5;
+
 const longestPatternLength = Object.keys(patterns).reduce((maxLength, key) => {
   if (key.length > maxLength) return key.length;
   return maxLength;
@@ -106,7 +109,6 @@ export default class GameState {
         this.board[row + (2 * drow)][col + (2 * dcol)] === this.turn &&
         this.board[row + (3 * drow)][col + (3 * dcol)] === this.parentTurn
       ) {
-        console.log('capture found');
         this.captures[this.parentTurn] += 1;
         this.board[row + drow][col + dcol] = 0;
         this.board[row + (2 * drow)][col + (2 * dcol)] = 0;
@@ -161,6 +163,16 @@ export default class GameState {
   }
 
   updateValue() {
+    if (this.winner === 1) {
+      this.value = -GAME_OVER_VALUE;
+      return;
+    }
+
+    if (this.winner === 2) {
+      this.value = GAME_OVER_VALUE;
+      return;
+    }
+
     this.value = 0;
     for (let i = 0; i < this.board.length; i++) {
       for (let j = 0; j < this.board[i].length; j++) {
@@ -195,8 +207,8 @@ export default class GameState {
       }
     }
 
-    this.value += this.captures[2] * (5 ** 5);
-    this.value -= this.captures[1] * (5 ** 5);
+    this.value += this.captures[2] * CAPTURE_VALUE;
+    this.value -= this.captures[1] * CAPTURE_VALUE;
   }
 
   forEachChild(cb) {
