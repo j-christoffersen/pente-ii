@@ -20,16 +20,37 @@ const patterns = {
   '12220': -(5 ** 2),
   '02221': -(5 ** 2),
   '01110': 5 ** 4,
+  '010110': 5 ** 4,
+  '011010': 5 ** 4,
   '02220': -(5 ** 6),
+  '020220': -(5 ** 6),
+  '022020': -(5 ** 6),
   '211110': 5 ** 7,
   '011112': 5 ** 7,
   '122220': -(5 ** 8),
   '022221': -(5 ** 8),
   '011110': 5 ** 9,
+  '2111010': 5 ** 9,
+  '2110110': 5 ** 9,
+  '2101110': 5 ** 9,
+  '0111012': 5 ** 9,
+  '0110112': 5 ** 9,
+  '0101112': 5 ** 9,
   '022220': -(5 ** 10),
+  '1202220': -(5 ** 10),
+  '1220220': -(5 ** 10),
+  '1222020': -(5 ** 10),
+  '0202221': -(5 ** 10),
+  '0220221': -(5 ** 10),
+  '0222021': -(5 ** 10),
   '11111': 5 ** 11,
   '22222': -(5 ** 11),
 };
+
+const longestPatternLength = Object.keys(patterns).reduce((maxLength, key) => {
+  if (key.length > maxLength) return key.length;
+  return maxLength;
+}, 0);
 
 export default class GameState {
   constructor(parent, row, col) {
@@ -150,7 +171,7 @@ export default class GameState {
           let col = j;
 
           const pattern = [];
-          while (pattern.length <= 5) {
+          while (pattern.length <= longestPatternLength) {
             if (!this.board[row] || this.board[row][col] === undefined) break;
 
             pattern.push(this.board[row][col]);
@@ -165,7 +186,6 @@ export default class GameState {
 
             if (patterns[patternString]) {
               this.value += patterns[patternString];
-              break;
             }
 
             row += drow;
