@@ -34,7 +34,11 @@ const reducers = (state = defaultState, action) => {
 
       // creates side effects that cause a later action,
       // perhaps this structure is not ideal.
-      if (state.playerMode === 'ONE PLAYER' && newState.gameState.turn === 2) {
+      if (
+        state.playerMode === 'ONE PLAYER' &&
+        newState.gameState.turn === 2 &&
+        !newState.gameState.winner
+      ) {
         setTimeout(computerMove, COMPUTER_WAIT_TIME);
       }
 
