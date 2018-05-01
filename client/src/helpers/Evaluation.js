@@ -58,22 +58,22 @@ export default class Evaluation {
       this.row = row;
       this.col = col;
     }
-
-    this.updateValue(); // only do this when necessary, via a getter
   }
 
-  updateValue() {
+  get value() {
+    if (this.memValue) return this.memValue;
+
     if (this.gameState.winner === 1) {
-      this.value = -GAME_OVER_VALUE;
-      return;
+      this.memValue = -GAME_OVER_VALUE;
+      return this.memValue;
     }
 
     if (this.gameState.winner === 2) {
-      this.value = GAME_OVER_VALUE;
-      return;
+      this.memValue = GAME_OVER_VALUE;
+      return this.memValue;
     }
 
-    this.value = 0;
+    this.memValue = 0;
     for (let i = 0; i < this.gameState.board.length; i++) {
       for (let j = 0; j < this.gameState.board[i].length; j++) {
         const dirs = [[1, 1], [1, 0], [0, 1], [1, -1]];
@@ -97,7 +97,7 @@ export default class Evaluation {
             const patternString = pattern.map(num => reversePlayers[num]).join('');
 
             if (patterns[patternString]) {
-              this.value += patterns[patternString];
+              this.memValue += patterns[patternString];
             }
 
             row += drow;
@@ -107,8 +107,9 @@ export default class Evaluation {
       }
     }
 
-    this.value += this.gameState.captures[2] * CAPTURE_VALUE;
-    this.value -= this.gameState.captures[1] * CAPTURE_VALUE;
+    this.memValue += this.gameState.captures[2] * CAPTURE_VALUE;
+    this.memValue -= this.gameState.captures[1] * CAPTURE_VALUE;
+    return this.memValue;
   }
 
   forEachChild(cb) {
