@@ -1,3 +1,4 @@
+import { DIFFICULTY } from '../config';
 import store from '../store';
 import { move } from '../actions';
 import Evaluation from './Evaluation';
@@ -7,13 +8,17 @@ export default function computerMove() {
 
   const currentEval = new Evaluation(state.gameState);
 
-  let bestVal;
+  // let bestVal;
 
-  currentEval.forEachChild((evaluation) => {
-    if (!bestVal || evaluation.value > bestVal.value) {
-      bestVal = evaluation;
-    }
-  });
+  // currentEval.forEachChild((evaluation) => {
+  //   if (!bestVal || evaluation.value > bestVal.value) {
+  //     bestVal = evaluation;
+  //   }
+  // });
 
-  store.dispatch(move(bestVal.row, bestVal.col, false));
+  // store.dispatch(move(bestVal.row, bestVal.col, false));
+
+  const bestNextEval = currentEval.alphaBeta(DIFFICULTY);
+
+  store.dispatch(move(bestNextEval.row, bestNextEval.col, false));
 }

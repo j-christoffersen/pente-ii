@@ -112,6 +112,48 @@ export default class Evaluation {
     return this.memValue;
   }
 
+  alphaBeta(depth, alpha = Number.NEGATIVE_INFINITY, beta = Number.POSITIVE_INFINITY) {
+    if (depth === 0) {
+      this.v = this.value;
+      return this;
+    }
+
+    const isMaximizer = depth % 2 === 0;
+
+    let bestV = isMaximizer ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+    let bestEval = null;
+
+    let breakFlag = false; // set flag to break out of following loop
+    this.forEachChild((evaluation) => {
+      if (breakFlag) return;
+
+      const newAlpha = isMaximizer ? Math.max(alpha, bestV) : alpha;
+      const newBeta = isMaximizer ? beta : Math.min(beta, bestV);
+
+      const child = evaluation.alphaBeta(depth - 1, newAlpha, newBeta);
+      if (isMaximizer) {
+        if (child.v > bestV) {
+          bestV = child.v;
+          bestEval = child;
+          if (bestV > beta) {
+            breakFlag = true;
+          }
+        }
+      } else {
+        if (child.v < bestV) {
+          bestV = child.v;
+          bestEval = child;
+          if (bestV < alpha) {
+            breakFlag = true;
+          }
+        }
+      }
+    });
+
+    bestEval.v = bestV;
+    return bestEval;
+  }
+
   forEachChild(cb) {
     for (let i = 0; i < this.gameState.board.length; i++) {
       for (let j = 0; j < this.gameState.board[i].length; j++) {
