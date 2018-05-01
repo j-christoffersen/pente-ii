@@ -1,7 +1,6 @@
 import GameState from '../helpers/GameState';
 import computerMove from '../helpers/AI';
-
-const COMPUTER_WAIT_TIME = 1000;
+import { COMPUTER_WAIT_TIME } from '../config';
 
 const defaultState = {
   gameState: new GameState(),

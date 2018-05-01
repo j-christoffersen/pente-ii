@@ -36,13 +36,13 @@ const patterns = {
   '22202': -(5 ** 7),
 };
 
+const CAPTURE_VALUE = 5 ** 4;
+const GAME_OVER_VALUE = 5 ** 8;
+
 Object.keys(patterns).forEach((key) => {
   const reverseKey = key.split('').reverse().join('');
   patterns[reverseKey] = patterns[key];
 });
-
-const CAPTURE_VALUE = 5 ** 4;
-const GAME_OVER_VALUE = 5 ** 8;
 
 const longestPatternLength = Object.keys(patterns).reduce((maxLength, key) => {
   if (key.length > maxLength) return key.length;

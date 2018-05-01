@@ -1,6 +1,6 @@
-const generateBoard = () => {
-  const N = 17;
+import { N } from '../config';
 
+const generateBoard = () => {
   const emptyBoard = [];
   for (let i = 0; i < N; i++) {
     emptyBoard[i] = [];
