@@ -1,18 +1,19 @@
 import store from '../store';
 import { move } from '../actions';
+import Evaluation from './Evaluation';
 
 export default function computerMove() {
   const state = store.getState();
 
-  const currentGame = state.gameState;
+  const currentEval = new Evaluation(state.gameState);
 
-  let bestGame;
+  let bestVal;
 
-  currentGame.forEachChild((gameState) => {
-    if (!bestGame || gameState.value > bestGame.value) {
-      bestGame = gameState;
+  currentEval.forEachChild((evaluation) => {
+    if (!bestVal || evaluation.value > bestVal.value) {
+      bestVal = evaluation;
     }
   });
 
-  store.dispatch(move(bestGame.row, bestGame.col, false));
+  store.dispatch(move(bestVal.row, bestVal.col, false));
 }

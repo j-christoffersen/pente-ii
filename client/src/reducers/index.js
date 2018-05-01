@@ -27,8 +27,6 @@ const reducers = (state = defaultState, action) => {
 
       if (state.gameState.isValidMove(row, col)) {
         newState.gameState = new GameState(state.gameState, row, col);
-      } else {
-        console.log('invalid move');
       }
 
       // creates side effects that cause a later action,
