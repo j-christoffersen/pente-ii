@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Space from './Space';
 
@@ -19,4 +20,8 @@ Board.propTypes = {
   board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
 };
 
-export default Board;
+const mapStateToProps = state => ({
+  board: state.gameState.board,
+});
+
+export default connect(mapStateToProps)(Board);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Board from '../containers/Board';
+import Board from './Board';
 import Message from './Message';
 import Captures from './Captures';
 import Overlay from './Overlay';
