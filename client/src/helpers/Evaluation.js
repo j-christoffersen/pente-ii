@@ -1,5 +1,7 @@
 import GameState from './GameState';
 
+let debugCounter = 0;
+
 /* eslint quote-props: 0 */
 
 const patterns = {
@@ -62,12 +64,12 @@ export default class Evaluation {
   get value() {
     if (this.memValue) return this.memValue;
 
-    if (this.gameState.winner === 1) {
+    if (this.gameState.winner === this.gameState.turn) {
       this.memValue = -GAME_OVER_VALUE;
       return this.memValue;
     }
 
-    if (this.gameState.winner === 2) {
+    if (this.gameState.winner === this.gameState.parentTurn) {
       this.memValue = GAME_OVER_VALUE;
       return this.memValue;
     }
@@ -94,7 +96,9 @@ export default class Evaluation {
               2: 1,
             };
 
-            const patternString = pattern.map(num => reversePlayers[num]).join('');
+            const patternString = this.gameState.parentTurn === 1 ?
+              pattern.join('') :
+              pattern.map(num => reversePlayers[num]).join('');
 
             if (patterns[patternString]) {
               this.memValue += patterns[patternString];
@@ -107,8 +111,9 @@ export default class Evaluation {
       }
     }
 
-    this.memValue += this.gameState.captures[2] * CAPTURE_VALUE;
-    this.memValue -= this.gameState.captures[1] * CAPTURE_VALUE;
+    this.memValue += this.gameState.captures[this.gameState.parentTurn] * CAPTURE_VALUE;
+    this.memValue -= this.gameState.captures[this.gameState.turn] * CAPTURE_VALUE;
+    console.log(debugCounter++);
     return this.memValue;
   }
 
@@ -131,7 +136,7 @@ export default class Evaluation {
       const newBeta = isMaximizer ? beta : Math.min(beta, bestV);
 
       const child = evaluation.alphaBeta(depth - 1, newAlpha, newBeta);
-      console.log(child.v);
+
       if (isMaximizer) {
         if (child.v > bestV) {
           bestV = child.v;
