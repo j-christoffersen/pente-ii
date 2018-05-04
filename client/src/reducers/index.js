@@ -39,7 +39,6 @@ const reducers = (state = defaultState, action) => {
         setTimeout(computerMove, COMPUTER_WAIT_TIME);
       }
 
-      console.log(newState);
       return newState;
     }
 

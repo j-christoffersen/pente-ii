@@ -18,6 +18,7 @@ export default function computerMove() {
 
   // store.dispatch(move(bestVal.row, bestVal.col, false));
 
+  console.log('DIFFICULTY:', DIFFICULTY);
   const bestNextEval = currentEval.alphaBeta(DIFFICULTY);
 
   store.dispatch(move(bestNextEval.row, bestNextEval.col, false));

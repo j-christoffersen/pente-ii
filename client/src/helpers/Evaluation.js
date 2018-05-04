@@ -3,17 +3,16 @@ import GameState from './GameState';
 /* eslint quote-props: 0 */
 
 const patterns = {
-  '210': 5 ** 0,
-  '120': -(5 ** 0),
+  '120': 5 ** 0,
+  '210': -(5 ** 0),
   '010': 5 ** 1,
-  '020': 5 ** 1,
+  '020': -(5 ** 1),
   '2110': -(5 ** 3) + 5, // original: -(5 ** 3)
   '1220': (5 ** 3) - (5 ** 2), // original: 5 ** 3
   '0110': 5 ** 2,
   '0220': -(5 ** 2),
   '21110': 5 ** 2,
   '12220': -(5 ** 2),
-  '02221': -(5 ** 2),
   '21010': 5 ** 0,
   '12020': -(5 ** 0),
   '01110': 5 ** 3,
@@ -74,6 +73,7 @@ export default class Evaluation {
     }
 
     this.memValue = 0;
+
     for (let i = 0; i < this.gameState.board.length; i++) {
       for (let j = 0; j < this.gameState.board[i].length; j++) {
         const dirs = [[1, 1], [1, 0], [0, 1], [1, -1]];
@@ -118,7 +118,7 @@ export default class Evaluation {
       return this;
     }
 
-    const isMaximizer = depth % 2 === 0;
+    const isMaximizer = depth % 2 === 1;
 
     let bestV = isMaximizer ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
     let bestEval = null;
@@ -131,6 +131,7 @@ export default class Evaluation {
       const newBeta = isMaximizer ? beta : Math.min(beta, bestV);
 
       const child = evaluation.alphaBeta(depth - 1, newAlpha, newBeta);
+      console.log(child.v);
       if (isMaximizer) {
         if (child.v > bestV) {
           bestV = child.v;
