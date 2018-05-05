@@ -154,6 +154,12 @@ export default class Evaluation {
       return this;
     }
 
+    if (this.gameState.winner === this.gameState.parentTurn) {
+      this.v = GAME_OVER_VALUE;
+      if (this.depth % 2 === 1) this.v *= -1;
+      return this;
+    }
+
     const isMaximizer = depth % 2 === 1;
 
     let bestV = isMaximizer ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
