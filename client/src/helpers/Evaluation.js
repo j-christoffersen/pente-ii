@@ -53,43 +53,45 @@ const longestPatternLength = Object.keys(patterns).reduce((maxLength, key) => {
 
 export default class Evaluation {
   constructor(parentOrGameState, row, col) {
+    this.bounds = {};
+
     if (parentOrGameState instanceof GameState) {
       this.gameState = parentOrGameState;
 
       const { board } = this.gameState;
 
-      this.minRow = Math.floor((N - 1) / 2);
-      this.maxRow = Math.floor(N / 2);
-      this.minCol = Math.floor((N - 1) / 2);
-      this.maxCol = Math.floor(N / 2);
+      this.bounds.minRow = Math.floor((N - 1) / 2);
+      this.bounds.maxRow = Math.floor(N / 2);
+      this.bounds.minCol = Math.floor((N - 1) / 2);
+      this.bounds.maxCol = Math.floor(N / 2);
 
       for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
           if (board[i][j]) {
-            if (i < this.minRow) this.minRow = i;
-            if (i > this.maxRow) this.maxRow = i;
-            if (j < this.minCol) this.minCol = j;
-            if (j > this.maxCol) this.maxCol = j;
+            if (i < this.bounds.minRow) this.bounds.minRow = i;
+            if (i > this.bounds.maxRow) this.bounds.maxRow = i;
+            if (j < this.bounds.minCol) this.bounds.minCol = j;
+            if (j > this.bounds.maxCol) this.bounds.maxCol = j;
           }
         }
       }
 
-      this.minRow = Math.max(this.minRow - 2, 0);
-      this.maxRow = Math.min(this.maxRow + 2, N - 1);
-      this.minCol = Math.max(this.minCol - 2, 0);
-      this.maxCol = Math.min(this.maxCol + 2, N - 1);
+      this.bounds.minRow = Math.max(this.bounds.minRow - 2, 0);
+      this.bounds.maxRow = Math.min(this.bounds.maxRow + 2, N - 1);
+      this.bounds.minCol = Math.max(this.bounds.minCol - 2, 0);
+      this.bounds.maxCol = Math.min(this.bounds.maxCol + 2, N - 1);
     } else {
       const parent = parentOrGameState;
       this.gameState = new GameState(parent.gameState, row, col);
       this.row = row;
       this.col = col;
-      this.minRow = Math.min(parent.minRow, row - 2);
-      this.maxRow = Math.max(parent.maxRow, row + 2);
-      this.minCol = Math.min(parent.minCol, col - 2);
-      this.maxCol = Math.max(parent.maxCol, col + 2);
+      this.bounds.minRow = Math.min(parent.bounds.minRow, row - 2);
+      this.bounds.maxRow = Math.max(parent.bounds.maxRow, row + 2);
+      this.bounds.minCol = Math.min(parent.bounds.minCol, col - 2);
+      this.bounds.maxCol = Math.max(parent.bounds.maxCol, col + 2);
     }
 
-    // console.log(this.minRow, this.maxRow, this.minCol, this.maxCol);
+    // console.log(this.bounds.minRow, this.bounds.maxRow, this.bounds.minCol, this.bounds.maxCol);
   }
 
   get value() {
@@ -200,10 +202,10 @@ export default class Evaluation {
   }
 
   forEachChild(cb) {
-    console.log(this.minRow, this.maxRow, this.minCol, this.maxCol);
+    console.log(this.bounds.minRow, this.bounds.maxRow, this.bounds.minCol, this.bounds.maxCol);
 
-    for (let i = this.minRow; i <= this.maxRow; i++) {
-      for (let j = this.minCol; j <= this.maxCol; j++) {
+    for (let i = this.bounds.minRow; i <= this.bounds.maxRow; i++) {
+      for (let j = this.bounds.minCol; j <= this.bounds.maxCol; j++) {
         if (this.gameState.board[i][j] === 0) {
           cb(new Evaluation(this, i, j));
         }
