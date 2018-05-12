@@ -67,9 +67,9 @@ export default class Evaluation {
         for (let j = 0; j < board[i].length; j++) {
           if (board[i][j]) {
             if (i < this.minRow) this.minRow = i;
-            if (i < this.maxRow) this.maxRow = i;
+            if (i > this.maxRow) this.maxRow = i;
             if (j < this.minCol) this.minCol = j;
-            if (j < this.maxCol) this.maxCol = j;
+            if (j > this.maxCol) this.maxCol = j;
           }
         }
       }
@@ -89,11 +89,11 @@ export default class Evaluation {
       this.maxCol = Math.max(parent.maxCol, col + 2);
     }
 
-    console.log(this.minRow, this.maxRow, this.minCol, this.maxCol);
+    // console.log(this.minRow, this.maxRow, this.minCol, this.maxCol);
   }
 
   get value() {
-    if (this.memValue) return this.memValue;
+    if (this.memValue !== undefined) return this.memValue;
 
     if (this.gameState.winner === this.gameState.turn) {
       this.memValue = -GAME_OVER_VALUE;
@@ -144,7 +144,7 @@ export default class Evaluation {
 
     this.memValue += this.gameState.captures[this.gameState.parentTurn] * CAPTURE_VALUE;
     this.memValue -= this.gameState.captures[this.gameState.turn] * CAPTURE_VALUE;
-    console.log(debugCounter++);
+
     return this.memValue;
   }
 
@@ -154,6 +154,7 @@ export default class Evaluation {
       return this;
     }
 
+    // here or in get value redundant
     if (this.gameState.winner === this.gameState.parentTurn) {
       this.v = GAME_OVER_VALUE;
       if (this.depth % 2 === 1) this.v *= -1;
@@ -179,7 +180,7 @@ export default class Evaluation {
           bestV = child.v;
           bestEval = child;
           if (bestV > beta) {
-            breakFlag = true;
+            // breakFlag = true;
           }
         }
       } else {
@@ -187,17 +188,20 @@ export default class Evaluation {
           bestV = child.v;
           bestEval = child;
           if (bestV < alpha) {
-            breakFlag = true;
+            // breakFlag = true;
           }
         }
       }
     });
 
     bestEval.v = bestV;
+    console.log(bestEval);
     return bestEval;
   }
 
   forEachChild(cb) {
+    console.log(this.minRow, this.maxRow, this.minCol, this.maxCol);
+
     for (let i = this.minRow; i <= this.maxRow; i++) {
       for (let j = this.minCol; j <= this.maxCol; j++) {
         if (this.gameState.board[i][j] === 0) {
