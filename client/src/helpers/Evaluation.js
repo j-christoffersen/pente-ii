@@ -182,7 +182,7 @@ export default class Evaluation {
           bestV = child.v;
           bestEval = child;
           if (bestV > beta) {
-            // breakFlag = true;
+            breakFlag = true;
           }
         }
       } else {
@@ -190,19 +190,19 @@ export default class Evaluation {
           bestV = child.v;
           bestEval = child;
           if (bestV < alpha) {
-            // breakFlag = true;
+            breakFlag = true;
           }
         }
       }
     });
 
     bestEval.v = bestV;
-    console.log(bestEval);
+    // console.log(bestEval);
     return bestEval;
   }
 
   forEachChild(cb) {
-    console.log(this.bounds.minRow, this.bounds.maxRow, this.bounds.minCol, this.bounds.maxCol);
+    // console.log(this.bounds.minRow, this.bounds.maxRow, this.bounds.minCol, this.bounds.maxCol);
 
     for (let i = this.bounds.minRow; i <= this.bounds.maxRow; i++) {
       for (let j = this.bounds.minCol; j <= this.bounds.maxCol; j++) {
