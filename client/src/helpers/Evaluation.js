@@ -1,5 +1,6 @@
 import { N } from '../config';
 import GameState from './GameState';
+import Trie from '../lib/Trie';
 
 let debugCounter = 0;
 
@@ -38,6 +39,15 @@ const patterns = {
   '22202': -(5 ** 7),
 };
 
+const patternTrie = new Trie();
+
+const keys = Object.keys(patterns);
+
+keys.forEach((key) => {
+  patternTrie.insert(key, patterns[key]);
+  patternTrie.insert(key.split('').reverse().join(), patterns[key]);
+});
+
 const CAPTURE_VALUE = 5 ** 4;
 const GAME_OVER_VALUE = 5 ** 8;
 
@@ -45,11 +55,6 @@ Object.keys(patterns).forEach((key) => {
   const reverseKey = key.split('').reverse().join('');
   patterns[reverseKey] = patterns[key];
 });
-
-const longestPatternLength = Object.keys(patterns).reduce((maxLength, key) => {
-  if (key.length > maxLength) return key.length;
-  return maxLength;
-}, 0);
 
 export default class Evaluation {
   constructor(parentOrGameState, row, col) {
@@ -117,11 +122,9 @@ export default class Evaluation {
           let row = i;
           let col = j;
 
-          const pattern = [];
-          while (pattern.length <= longestPatternLength) {
-            if (!this.gameState.board[row] || this.gameState.board[row][col] === undefined) break;
-
-            pattern.push(this.gameState.board[row][col]);
+          let curTrieNode = patternTrie.root;
+          while (curTrieNode) {
+            this.memValue += curTrieNode.val;
 
             const reversePlayers = {
               0: 0,
@@ -129,16 +132,16 @@ export default class Evaluation {
               2: 1,
             };
 
-            const patternString = this.gameState.parentTurn === 1 ?
-              pattern.join('') :
-              pattern.map(num => reversePlayers[num]).join('');
+            const nextChar = this.gameState.parentTurn === 1 ?
+              this.gameState.board[row][col] :
+              reversePlayers[this.gameState.board[row][col]];
 
-            if (patterns[patternString]) {
-              this.memValue += patterns[patternString];
-            }
+            curTrieNode = curTrieNode.children[nextChar];
 
             row += drow;
             col += dcol;
+
+            if (!this.gameState.board[row] || this.gameState.board[row][col] === undefined) break;
           }
         }
       }

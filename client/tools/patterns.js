@@ -1,3 +1,5 @@
+// delete this file when done copying all code
+
 /* eslint quote-props: 0 */
 
 const patterns = {
