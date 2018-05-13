@@ -9,7 +9,6 @@ export default class GameState {
         2: 0,
       };
       this.turn = 1;
-      this.winner = null;
     } else {
       this.board = JSON.parse(JSON.stringify(parent.board));
       this.captures = JSON.parse(JSON.stringify(parent.captures));
