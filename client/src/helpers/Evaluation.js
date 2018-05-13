@@ -90,10 +90,10 @@ export default class Evaluation {
       this.gameState = new GameState(parent.gameState, row, col);
       this.row = row;
       this.col = col;
-      this.bounds.minRow = Math.min(parent.bounds.minRow, row - 2);
-      this.bounds.maxRow = Math.max(parent.bounds.maxRow, row + 2);
-      this.bounds.minCol = Math.min(parent.bounds.minCol, col - 2);
-      this.bounds.maxCol = Math.max(parent.bounds.maxCol, col + 2);
+      this.bounds.minRow = Math.max(Math.min(parent.bounds.minRow, row - 2), 0);
+      this.bounds.maxRow = Math.min(Math.max(parent.bounds.maxRow, row + 2), N - 1);
+      this.bounds.minCol = Math.max(Math.min(parent.bounds.minCol, col - 2), 0);
+      this.bounds.maxCol = Math.min(Math.max(parent.bounds.maxCol, col + 2), N - 1);
     }
 
     // console.log(this.bounds.minRow, this.bounds.maxRow, this.bounds.minCol, this.bounds.maxCol);
@@ -103,11 +103,13 @@ export default class Evaluation {
     if (this.memValue !== undefined) return this.memValue;
 
     if (this.gameState.winner === this.gameState.turn) {
+      console.log('1');
       this.memValue = -GAME_OVER_VALUE;
       return this.memValue;
     }
 
     if (this.gameState.winner === this.gameState.parentTurn) {
+      console.log('2');
       this.memValue = GAME_OVER_VALUE;
       return this.memValue;
     }
@@ -161,6 +163,7 @@ export default class Evaluation {
 
     // here or in get value redundant
     if (this.gameState.winner === this.gameState.parentTurn) {
+      console.log('winner');
       this.v = GAME_OVER_VALUE;
       if (this.depth % 2 === 1) this.v *= -1;
       return this;
@@ -207,7 +210,7 @@ export default class Evaluation {
   }
 
   forEachChild(cb) {
-    // console.log(this.bounds.minRow, this.bounds.maxRow, this.bounds.minCol, this.bounds.maxCol);
+    console.log(this.bounds.minRow, this.bounds.maxRow, this.bounds.minCol, this.bounds.maxCol);
 
     for (let i = this.bounds.minRow; i <= this.bounds.maxRow; i++) {
       for (let j = this.bounds.minCol; j <= this.bounds.maxCol; j++) {
