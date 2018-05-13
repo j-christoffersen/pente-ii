@@ -8,7 +8,8 @@ export default function computerMove() {
 
   const currentEval = new Evaluation(state.gameState);
 
-  const bestNextEval = currentEval.alphaBeta(DIFFICULTY);
+  // refactor to be a getter for bestChild
+  const bestNextEval = currentEval.alphaBeta(DIFFICULTY).bestChild;
 
   store.dispatch(move(bestNextEval.row, bestNextEval.col, false));
 }
