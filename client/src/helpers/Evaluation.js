@@ -44,16 +44,15 @@ const GAME_OVER_VALUE = 5 ** 8;
 
 const patternTrie = new Trie();
 
+Object.keys(patterns).forEach((key) => {
+  const reverseKey = key.split('').reverse().join('');
+  patterns[reverseKey] = patterns[key];
+});
+
 const keys = Object.keys(patterns);
 
 keys.forEach((key) => {
   patternTrie.insert(key, patterns[key]);
-  patternTrie.insert(key.split('').reverse().join(), patterns[key]);
-});
-
-Object.keys(patterns).forEach((key) => {
-  const reverseKey = key.split('').reverse().join('');
-  patterns[reverseKey] = patterns[key];
 });
 
 export default class Evaluation {
@@ -126,6 +125,8 @@ export default class Evaluation {
           while (curTrieNode) {
             this.memValue += curTrieNode.val;
 
+            if (this.memValue === -(5 ** 7)) console.log('okey doke');
+
             const reversePlayers = {
               0: 0,
               1: 2,
@@ -161,7 +162,6 @@ export default class Evaluation {
 
     // here or in get value redundant
     if (this.gameState.winner === this.gameState.parentTurn) {
-      console.log('winner', depth);
       this.v = GAME_OVER_VALUE;
       if (depth % 2 === 1) this.v *= -1;
       return this;
