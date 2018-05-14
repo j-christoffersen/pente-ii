@@ -1,4 +1,4 @@
-import { N } from '../config';
+import { N, DIFFICULTY } from '../config';
 import GameState from './GameState';
 import Trie from '../lib/Trie';
 
@@ -125,8 +125,6 @@ export default class Evaluation {
           while (curTrieNode) {
             this.memValue += curTrieNode.val;
 
-            if (this.memValue === -(5 ** 7)) console.log('okey doke');
-
             const reversePlayers = {
               0: 0,
               1: 2,
@@ -152,6 +150,13 @@ export default class Evaluation {
     this.memValue -= this.gameState.captures[this.gameState.turn] * CAPTURE_VALUE;
 
     return this.memValue;
+  }
+
+  get bestChild() {
+    if (this.memBestChild) return this.memBestChild;
+
+    this.alphaBeta(DIFFICULTY);
+    return this.memBestChild;
   }
 
   alphaBeta(depth, alpha = Number.NEGATIVE_INFINITY, beta = Number.POSITIVE_INFINITY) {
@@ -202,7 +207,7 @@ export default class Evaluation {
 
     // refactor to not need bestV
     this.v = bestV;
-    this.bestChild = bestEval;
+    this.memBestChild = bestEval;
     // console.log(bestEval);
     return this;
   }
