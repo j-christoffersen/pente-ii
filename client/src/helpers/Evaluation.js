@@ -174,39 +174,42 @@ export default class Evaluation {
 
     const isMaximizer = depth % 2 === 1;
 
-    let bestV = isMaximizer ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
-    let bestEval = null;
+    let bestEval = {
+      v: isMaximizer ?
+        Number.NEGATIVE_INFINITY :
+        Number.POSITIVE_INFINITY,
+    };
 
     let breakFlag = false; // set flag to break out of following loop
     this.forEachChild((evaluation) => {
       if (breakFlag) return;
 
-      const newAlpha = isMaximizer ? Math.max(alpha, bestV) : alpha;
-      const newBeta = isMaximizer ? beta : Math.min(beta, bestV);
+      const newAlpha = isMaximizer ? Math.max(alpha, bestEval.v) : alpha;
+      const newBeta = isMaximizer ? beta : Math.min(beta, bestEval.v);
 
       const child = evaluation.alphaBeta(depth - 1, newAlpha, newBeta);
 
       if (isMaximizer) {
-        if (child.v > bestV) {
-          bestV = child.v;
+        if (child.v > bestEval.v) {
+          bestEval.v = child.v;
           bestEval = child;
-          if (bestV > beta) {
+          if (bestEval.v > beta) {
             breakFlag = true;
           }
         }
       } else {
-        if (child.v < bestV) {
-          bestV = child.v;
+        if (child.v < bestEval.v) {
+          bestEval.v = child.v;
           bestEval = child;
-          if (bestV < alpha) {
+          if (bestEval.v < alpha) {
             breakFlag = true;
           }
         }
       }
     });
 
-    // refactor to not need bestV
-    this.v = bestV;
+    // refactor to not need bestEval.v
+    this.v = bestEval.v;
     this.memBestChild = bestEval;
     // console.log(bestEval);
     return this;
