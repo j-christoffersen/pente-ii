@@ -44,14 +44,16 @@ const GAME_OVER_VALUE = 5 ** 8;
 
 const patternTrie = new Trie();
 
+const maxPatternLength = Object.keys(patterns).reduce((maxLengthSoFar, pattern) => (
+  pattern.length > maxLengthSoFar ? pattern.length : maxLengthSoFar
+), 0);
+
 Object.keys(patterns).forEach((key) => {
   const reverseKey = key.split('').reverse().join('');
   patterns[reverseKey] = patterns[key];
 });
 
-const keys = Object.keys(patterns);
-
-keys.forEach((key) => {
+Object.keys(patterns).forEach((key) => {
   patternTrie.insert(key, patterns[key]);
 });
 
@@ -113,8 +115,13 @@ export default class Evaluation {
 
     this.memValue = 0;
 
-    for (let i = 0; i < this.gameState.board.length; i++) {
-      for (let j = 0; j < this.gameState.board[i].length; j++) {
+    const minCheckRow = Math.max(0, this.bounds.minRow - maxPatternLength);
+    const maxCheckRow = Math.min(N - 1, this.bounds.maxRow + maxPatternLength);
+    const minCheckCol = Math.max(0, this.bounds.minCol - maxPatternLength);
+    const maxCheckCol = this.bounds.maxCol;
+
+    for (let i = minCheckRow; i <= maxCheckRow; i++) {
+      for (let j = minCheckCol; j <= maxCheckCol; j++) {
         const dirs = [[1, 1], [1, 0], [0, 1], [1, -1]];
         for (let k = 0; k < dirs.length; k++) {
           const [drow, dcol] = dirs[k];
