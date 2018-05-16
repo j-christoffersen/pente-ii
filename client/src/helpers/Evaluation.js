@@ -80,19 +80,19 @@ export default class Evaluation {
         }
       }
 
-      this.bounds.minRow = Math.max(this.bounds.minRow - 2, 0);
-      this.bounds.maxRow = Math.min(this.bounds.maxRow + 2, N - 1);
-      this.bounds.minCol = Math.max(this.bounds.minCol - 2, 0);
-      this.bounds.maxCol = Math.min(this.bounds.maxCol + 2, N - 1);
+      // this.bounds.minRow = Math.max(this.bounds.minRow - 2, 0);
+      // this.bounds.maxRow = Math.min(this.bounds.maxRow + 2, N - 1);
+      // this.bounds.minCol = Math.max(this.bounds.minCol - 2, 0);
+      // this.bounds.maxCol = Math.min(this.bounds.maxCol + 2, N - 1);
     } else {
       const parent = parentOrGameState;
       this.gameState = new GameState(parent.gameState, row, col);
       this.row = row;
       this.col = col;
-      this.bounds.minRow = Math.max(Math.min(parent.bounds.minRow, row - 2), 0);
-      this.bounds.maxRow = Math.min(Math.max(parent.bounds.maxRow, row + 2), N - 1);
-      this.bounds.minCol = Math.max(Math.min(parent.bounds.minCol, col - 2), 0);
-      this.bounds.maxCol = Math.min(Math.max(parent.bounds.maxCol, col + 2), N - 1);
+      this.bounds.minRow = Math.min(parent.bounds.minRow, row);
+      this.bounds.maxRow = Math.max(parent.bounds.maxRow, row);
+      this.bounds.minCol = Math.min(parent.bounds.minCol, col);
+      this.bounds.maxCol = Math.max(parent.bounds.maxCol, col);
     }
 
     // console.log(this.bounds.minRow, this.bounds.maxRow, this.bounds.minCol, this.bounds.maxCol);
@@ -208,7 +208,6 @@ export default class Evaluation {
       }
     });
 
-    // refactor to not need bestEval.v
     this.v = bestEval.v;
     this.memBestChild = bestEval;
     // console.log(bestEval);
@@ -218,8 +217,13 @@ export default class Evaluation {
   forEachChild(cb) {
     // console.log(this.bounds.minRow, this.bounds.maxRow, this.bounds.minCol, this.bounds.maxCol);
 
-    for (let i = this.bounds.minRow; i <= this.bounds.maxRow; i++) {
-      for (let j = this.bounds.minCol; j <= this.bounds.maxCol; j++) {
+    const minPlayableRow = Math.max(0, this.bounds.minRow - 2);
+    const maxPlayableRow = Math.min(N - 1, this.bounds.maxRow + 2);
+    const minPlayableCol = Math.max(0, this.bounds.minCol - 2);
+    const maxPlayableCol = Math.min(N - 1, this.bounds.maxCol + 2);
+
+    for (let i = minPlayableRow; i <= maxPlayableRow; i++) {
+      for (let j = minPlayableCol; j <= maxPlayableCol; j++) {
         if (this.gameState.board[i][j] === 0) {
           cb(new Evaluation(this, i, j));
         }
