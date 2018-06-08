@@ -1,4 +1,4 @@
-import { N, DIFFICULTY } from '../config';
+import { N, DIFFICULTY, ALGO_BATCH_SIZE } from '../config';
 import GameState from './GameState';
 import Trie from '../lib/Trie';
 
@@ -247,7 +247,7 @@ export default class Evaluation {
     }
   }
 
-  async forEachChildAsync(cb, batchSize  = 10) {
+  async forEachChildAsync(cb, batchSize = ALGO_BATCH_SIZE) {
     const minPlayableRow = Math.max(0, this.bounds.minRow - 2);
     const maxPlayableRow = Math.min(N - 1, this.bounds.maxRow + 2);
     const minPlayableCol = Math.max(0, this.bounds.minCol - 2);
