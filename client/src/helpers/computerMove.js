@@ -7,8 +7,8 @@ export default function computerMove() {
 
   const currentEval = new Evaluation(state.gameState);
 
-  // refactor to be a getter for bestChild
-  const bestNextEval = currentEval.bestChild;
-
-  store.dispatch(move(bestNextEval.row, bestNextEval.col, false));
+  currentEval.getBestChild()
+    .then((bestNextEval) => {
+      store.dispatch(move(bestNextEval.row, bestNextEval.col, false));
+    });
 }

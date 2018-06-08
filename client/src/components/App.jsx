@@ -7,6 +7,8 @@ import Captures from './Captures';
 import Overlay from './Overlay';
 import { newGame } from '../actions';
 
+import DebugWidget from './DebugWidget';
+
 const App = props => (
   <div>
     {props.overlayIsVisible && <Overlay />}
@@ -14,6 +16,7 @@ const App = props => (
     <Message />
     <Captures />
     <button onClick={props.handleClick}>New Game</button>
+    <DebugWidget />
   </div>
 );
 

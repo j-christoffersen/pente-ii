@@ -57,6 +57,13 @@ Object.keys(patterns).forEach((key) => {
   patternTrie.insert(key, patterns[key]);
 });
 
+const addToEventLoop = (cb) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(cb), 0);
+  });
+};
+
+
 export default class Evaluation {
   constructor(parentOrGameState, row, col) {
     this.bounds = {};
@@ -159,17 +166,19 @@ export default class Evaluation {
     return this.memValue;
   }
 
-  get bestChild() {
+  async getBestChild() {
     if (this.memBestChild) return this.memBestChild;
 
-    this.alphaBeta(DIFFICULTY);
+    await this.alphaBeta(DIFFICULTY);
     return this.memBestChild;
   }
 
-  alphaBeta(depth, alpha = Number.NEGATIVE_INFINITY, beta = Number.POSITIVE_INFINITY) {
+  async alphaBeta(depth, alpha = Number.NEGATIVE_INFINITY, beta = Number.POSITIVE_INFINITY) {
     if (depth === 0) {
-      this.v = this.value;
-      return this;
+      return addToEventLoop(() => {
+        this.v = this.value;
+        return this;
+      });
     }
 
     // here or in get value redundant
@@ -188,13 +197,13 @@ export default class Evaluation {
     };
 
     let breakFlag = false; // set flag to break out of following loop
-    this.forEachChild((evaluation) => {
+    await this.forEachChildAsync(async (evaluation) => {
       if (breakFlag) return;
 
       const newAlpha = isMaximizer ? Math.max(alpha, bestEval.v) : alpha;
       const newBeta = isMaximizer ? beta : Math.min(beta, bestEval.v);
 
-      const child = evaluation.alphaBeta(depth - 1, newAlpha, newBeta);
+      const child = await evaluation.alphaBeta(depth - 1, newAlpha, newBeta);
 
       if (isMaximizer) {
         if (child.v > bestEval.v) {
@@ -236,6 +245,25 @@ export default class Evaluation {
         }
       }
     }
+  }
+
+  async forEachChildAsync(cb) {
+    const minPlayableRow = Math.max(0, this.bounds.minRow - 2);
+    const maxPlayableRow = Math.min(N - 1, this.bounds.maxRow + 2);
+    const minPlayableCol = Math.max(0, this.bounds.minCol - 2);
+    const maxPlayableCol = Math.min(N - 1, this.bounds.maxCol + 2);
+
+    const childrenPromises = [];
+
+    for (let i = minPlayableRow; i <= maxPlayableRow; i++) {
+      for (let j = minPlayableCol; j <= maxPlayableCol; j++) {
+        if (this.gameState.board[i][j] === 0) {
+          childrenPromises.push(cb(new Evaluation(this, i, j)));
+        }
+      }
+    }
+
+    return Promise.all(childrenPromises);
   }
 
   isValidMove(row, col) {
