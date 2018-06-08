@@ -247,23 +247,28 @@ export default class Evaluation {
     }
   }
 
-  async forEachChildAsync(cb) {
+  async forEachChildAsync(cb, batchSize  = 10) {
     const minPlayableRow = Math.max(0, this.bounds.minRow - 2);
     const maxPlayableRow = Math.min(N - 1, this.bounds.maxRow + 2);
     const minPlayableCol = Math.max(0, this.bounds.minCol - 2);
     const maxPlayableCol = Math.min(N - 1, this.bounds.maxCol + 2);
 
-    const childrenPromises = [];
+    let batch = [];
 
     for (let i = minPlayableRow; i <= maxPlayableRow; i++) {
       for (let j = minPlayableCol; j <= maxPlayableCol; j++) {
         if (this.gameState.board[i][j] === 0) {
-          childrenPromises.push(cb(new Evaluation(this, i, j)));
+          if (batch.length >= batchSize) {
+            await Promise.all(batch);
+            batch = [];
+          }
+
+          batch.push(cb(new Evaluation(this, i, j)));
         }
       }
     }
 
-    return Promise.all(childrenPromises);
+    await Promise.all(batch);
   }
 
   isValidMove(row, col) {
