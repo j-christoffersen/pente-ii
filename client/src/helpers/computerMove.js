@@ -9,6 +9,7 @@ export default function computerMove() {
 
   currentEval.getBestChild()
     .then((bestNextEval) => {
+      console.log(bestNextEval);
       store.dispatch(move(bestNextEval.row, bestNextEval.col, false));
     });
 }

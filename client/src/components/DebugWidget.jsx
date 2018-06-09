@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 
+// A widget to test that other running code is non-blocking
 class DebugWidget extends Component {
   constructor() {
     super();

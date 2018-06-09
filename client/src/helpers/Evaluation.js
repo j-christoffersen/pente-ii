@@ -57,11 +57,11 @@ Object.keys(patterns).forEach((key) => {
   patternTrie.insert(key, patterns[key]);
 });
 
-const addToEventLoop = (cb) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => resolve(cb), 0);
-  });
-};
+const addToEventLoop = async cb => (
+  new Promise((resolve) => {
+    setTimeout(() => resolve(cb()), 0);
+  })
+);
 
 
 export default class Evaluation {
