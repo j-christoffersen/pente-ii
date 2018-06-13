@@ -1,10 +1,30 @@
+body {
+  background-color: #333333;
+}
+
+.overlay {
+  position: fixed;
+  height: 200px;
+  width: 550px;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #FFD;
+  border: 2px solid black;
+  border-radius: 5px;
+  text-align: center;
+}
+
 .board {
   display: grid;
   width: 800px;
   height: 800px;
+  margin: auto;
   grid-template-columns: repeat(17, 1fr);
   grid-template-rows: repeat(17, 1fr);
-  grid-gap: 10px;
+  grid-gap: 5px;
 }
 
 .message {
@@ -14,6 +34,7 @@
 .piece {
   background-color: white;
   border: 2px solid black;
+  border-radius: 5px;
 }
 
 .piece.player-2 {
@@ -23,3 +44,4 @@
 .piece.player-1 {
   background-color: yellow;
 }
+
