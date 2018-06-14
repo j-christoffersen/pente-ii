@@ -1,14 +1,18 @@
 import store from '../store';
 import { move } from '../actions';
-import Evaluation from './Evaluation';
+// import Evaluation from './Evaluation';
+import GetNextMoveWorker from '../workers/getNextMove.worker';
+
+const worker = new GetNextMoveWorker();
 
 export default function computerMove() {
   const state = store.getState();
 
-  const currentEval = new Evaluation(state.gameState);
+  worker.postMessage(state.gameState);
 
-  // refactor to be a getter for bestChild
-  const bestNextEval = currentEval.bestChild;
+  worker.onmessage = (event) => {
+    const bestNextEval = event.data;
 
-  store.dispatch(move(bestNextEval.row, bestNextEval.col, false));
+    store.dispatch(move(bestNextEval.row, bestNextEval.col, false));
+  };
 }
