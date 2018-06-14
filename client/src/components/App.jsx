@@ -5,6 +5,7 @@ import Board from './Board';
 import Message from './Message';
 import Captures from './Captures';
 import Overlay from './Overlay';
+import DebugWidget from './DebugWidget';
 import { newGame } from '../actions';
 
 const App = props => (
@@ -13,6 +14,7 @@ const App = props => (
     <Board />
     <Message />
     <Captures />
+    <DebugWidget />
     <button onClick={props.handleClick}>New Game</button>
   </div>
 );
