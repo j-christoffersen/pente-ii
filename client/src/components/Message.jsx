@@ -11,11 +11,15 @@ Message.propTypes = {
 };
 
 const getMessage = (state) => {
+  if (state.playerMode === 0) {
+    return '';
+  }
+
   if (state.gameState.winner) {
     return `Player ${state.gameState.winner} wins!`;
   }
 
-  return '';
+  return `It's player ${state.gameState.turn}'s turn`;
 };
 
 const mapStateToProps = state => ({
