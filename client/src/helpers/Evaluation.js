@@ -1,8 +1,8 @@
-import { N, DIFFICULTY } from '../config';
+import { N } from '../config';
 import GameState from './GameState';
 import Trie from '../lib/Trie';
 
-let debugCounter = 0;
+// let debugCounter = 0;
 
 /* eslint quote-props: 0 */
 
@@ -58,12 +58,11 @@ Object.keys(patterns).forEach((key) => {
 });
 
 export default class Evaluation {
-  constructor(parentOrGameState, row, col) {
+  constructor(...args) {
     this.bounds = {};
 
-    if (parentOrGameState instanceof GameState) {
-      this.gameState = parentOrGameState;
-
+    if (args[0] instanceof GameState) {
+      [this.gameState, this.difficulty] = args;
       const { board } = this.gameState;
 
       this.bounds.minRow = Math.floor((N - 1) / 2);
@@ -87,10 +86,11 @@ export default class Evaluation {
       // this.bounds.minCol = Math.max(this.bounds.minCol - 2, 0);
       // this.bounds.maxCol = Math.min(this.bounds.maxCol + 2, N - 1);
     } else {
-      const parent = parentOrGameState;
+      const [parent, row, col] = args;
       this.gameState = new GameState(parent.gameState, row, col);
       this.row = row;
       this.col = col;
+      this.difficulty = parent.difficulty;
       this.bounds.minRow = Math.min(parent.bounds.minRow, row);
       this.bounds.maxRow = Math.max(parent.bounds.maxRow, row);
       this.bounds.minCol = Math.min(parent.bounds.minCol, col);
@@ -162,7 +162,7 @@ export default class Evaluation {
   get bestChild() {
     if (this.memBestChild) return this.memBestChild;
 
-    this.alphaBeta(DIFFICULTY);
+    this.alphaBeta(this.difficulty);
     return this.memBestChild;
   }
 

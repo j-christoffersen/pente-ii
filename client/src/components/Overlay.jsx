@@ -10,21 +10,6 @@ class Overlay extends Component {
     this.state = {
       page: 'main',
     };
-
-    this.showRules = this.showRules.bind(this);
-    this.hideRules = this.hideRules.bind(this);
-  }
-
-  showRules() {
-    this.setState({
-      page: 'rules',
-    });
-  }
-
-  hideRules() {
-    this.setState({
-      page: 'main',
-    });
   }
 
   render() {
@@ -34,19 +19,29 @@ class Overlay extends Component {
       message = (
         <div>
           <p>The rules go here</p>
-          <button className="btn" onClick={this.hideRules}>Back</button>
-          <button className="btn" onClick={() => { this.props.play('ONE PLAYER'); }}>One Player</button>
+          <button className="btn" onClick={() => { this.setState({ page: 'main' }); }}>Back</button>
+          <button className="btn" onClick={() => { this.setState({ page: 'difficulty' }); }}>One Player</button>
+          <button className="btn" onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>
+        </div>
+      );
+    } else if (this.state.page === 'main') {
+      message = (
+        <div>
+          <h1>PENTE</h1>
+          <p>Welcome to PENTE!</p>
+          <button className="btn" onClick={() => { this.setState({ page: 'rules' }); }}>Rules</button>
+          <button className="btn" onClick={() => { this.setState({ page: 'difficulty' }); }}>One Player</button>
           <button className="btn" onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>
         </div>
       );
     } else {
       message = (
         <div>
-          <h1>PENTE</h1>
-          <p>Welcome to PENTE!</p>
-          <button className="btn" onClick={this.showRules}>Rules</button>
-          <button className="btn" onClick={() => { this.props.play('ONE PLAYER'); }}>One Player</button>
-          <button className="btn" onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>
+          <h1>Select difficulty:</h1>
+          <p>Note that the harder the difficulty, the longer the AI takes to make a move</p>
+          <button className="btn" onClick={() => { this.props.play('ONE PLAYER', 1); }}>Easy</button>
+          <button className="btn" onClick={() => { this.props.play('ONE PLAYER', 2); }}>Medium</button>
+          <button className="btn" onClick={() => { this.props.play('ONE PLAYER', 3); }}>Hard</button>
         </div>
       );
     }
@@ -64,7 +59,7 @@ Overlay.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  play: (playerMode) => { dispatch(startGame(playerMode)); },
+  play: (playerMode, difficulty) => { dispatch(startGame(playerMode, difficulty)); },
 });
 
 export default connect(null, mapDispatchToProps)(Overlay);

@@ -4,7 +4,8 @@ import { COMPUTER_WAIT_TIME } from '../config';
 
 const defaultState = {
   gameState: new GameState(),
-  playerMode: null,
+  playerMode: 0,
+  difficulty: 0,
   overlay: {
     isVisible: true,
   },
@@ -51,6 +52,7 @@ const reducers = (state = defaultState, action) => {
       newState.overlay = Object.assign({}, state.overlay);
       newState.overlay.isVisible = false;
       newState.playerMode = action.playerMode;
+      newState.difficulty = action.difficulty;
       return newState;
     }
 

@@ -21,9 +21,10 @@ export function showOverlay() {
   };
 }
 
-export function startGame(playerMode) {
+export function startGame(playerMode, difficulty) {
   return {
     type: 'START_GAME',
     playerMode,
+    difficulty,
   };
 }
