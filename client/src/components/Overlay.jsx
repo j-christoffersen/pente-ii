@@ -42,7 +42,7 @@ class Overlay extends Component {
           <p>Note that the harder the difficulty, the longer the AI takes to make a move</p>
           <button className="btn" onClick={() => { this.props.play('ONE PLAYER', 1); }}>Easy</button>
           <button className="btn" onClick={() => { this.props.play('ONE PLAYER', 2); }}>Medium</button>
-          <button className="btn" onClick={() => { this.props.play('ONE PLAYER', 3); }}>Hard</button>
+          {/* <button className="btn" onClick={() => { this.props.play('ONE PLAYER', 3); }}>Hard</button> */}
         </div>
       );
     }
