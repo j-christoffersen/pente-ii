@@ -1,0 +1,2 @@
+[alias]
+  gh-deploy = subtree push --prefix client/dist origin gh-pages
