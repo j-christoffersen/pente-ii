@@ -294,7 +294,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nmodule.exports = function () {\n  return new Worker(\"/compiled/\" + \"c83c8c6a9bffc257b9ba.worker.js\");\n};\n\n//# sourceURL=webpack:///./client/src/workers/getNextMove.worker.js?");
+eval("\n\nmodule.exports = function () {\n  return new Worker(\"./compiled/\" + \"c83c8c6a9bffc257b9ba.worker.js\");\n};\n\n//# sourceURL=webpack:///./client/src/workers/getNextMove.worker.js?");
 
 /***/ }),
 
