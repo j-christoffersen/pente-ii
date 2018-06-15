@@ -5,17 +5,17 @@ import Board from './Board';
 import Message from './Message';
 import Captures from './Captures';
 import Overlay from './Overlay';
-import DebugWidget from './DebugWidget';
+// import DebugWidget from './DebugWidget';
 import { newGame } from '../actions';
 
 const App = props => (
-  <div>
+  <div className="grid-container">
     {props.overlayIsVisible && <Overlay />}
     <Board />
     <Message />
     <Captures />
-    <DebugWidget />
-    <button onClick={props.handleClick}>New Game</button>
+    {/* <DebugWidget /> */}
+    <button className="new-game" onClick={props.handleClick}>New Game</button>
   </div>
 );
 

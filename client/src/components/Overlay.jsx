@@ -34,9 +34,9 @@ class Overlay extends Component {
       message = (
         <div>
           <p>The rules go here</p>
-          <button onClick={this.hideRules}>Back</button>
-          <button onClick={() => { this.props.play('ONE PLAYER'); }}>One Player</button>
-          <button onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>
+          <button className="btn" onClick={this.hideRules}>Back</button>
+          <button className="btn" onClick={() => { this.props.play('ONE PLAYER'); }}>One Player</button>
+          <button className="btn" onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>
         </div>
       );
     } else {
@@ -44,9 +44,9 @@ class Overlay extends Component {
         <div>
           <h1>PENTE</h1>
           <p>Welcome to PENTE!</p>
-          <button onClick={this.showRules}>Rules</button>
-          <button onClick={() => { this.props.play('ONE PLAYER'); }}>One Player</button>
-          <button onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>
+          <button className="btn" onClick={this.showRules}>Rules</button>
+          <button className="btn" onClick={() => { this.props.play('ONE PLAYER'); }}>One Player</button>
+          <button className="btn" onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>
         </div>
       );
     }
