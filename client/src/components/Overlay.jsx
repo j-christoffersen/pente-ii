@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { startGame } from '../actions';
+import rules from '../resources/rules.txt';
 
 class Overlay extends Component {
   constructor() {
@@ -18,7 +19,7 @@ class Overlay extends Component {
     if (this.state.page === 'rules') {
       message = (
         <div>
-          <p>The rules go here</p>
+          <p>{rules}</p>
           <button className="btn" onClick={() => { this.setState({ page: 'main' }); }}>Back</button>
           <button className="btn" onClick={() => { this.setState({ page: 'difficulty' }); }}>One Player</button>
           <button className="btn" onClick={() => { this.props.play('TWO PLAYER'); }}>Two Player</button>

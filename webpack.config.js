@@ -22,6 +22,12 @@ module.exports = {
           options: { publicPath: '/compiled/' },
         },
       },
+      {
+        test: /.txt$/,
+        use: {
+          loader: 'raw-loader',
+        },
+      },
     ],
   },
   mode: 'development',
